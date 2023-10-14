@@ -5,7 +5,7 @@ import os
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
-FOLDER_PATH = "C:/Users/andre/Desktop/Tag Application/static/images"
+FOLDER_PATH = "C:/Users/andre/Documents/GitHub/Flask-ImageTags/static/images"
 
 # Function to get the image name based on its index
 def get_image_by_index(index):
