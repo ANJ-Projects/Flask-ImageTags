@@ -1,0 +1,38 @@
+<!-- Include the CSS file -->
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+{% extends "bootstrap/base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h1>Image Viewer</h1>
+        <a href="{{ url_for('previous_image') }}" class="btn btn-primary">Previous</a>
+        <a href="{{ url_for('next_image') }}" class="btn btn-primary">Next</a>
+
+        <!-- Apply the .img-responsive class to your image -->
+        <img src="{{ url_for('static', filename='images/' + image) }}" alt="Newest Image" class="img-responsive">
+
+        <p>{{ image }}</p>
+        <form method="post" action="{{ url_for('tag_image') }}">
+            <div class="btn-group">
+                {% for tag in tags %}
+                    <button type="submit" name="tag" value="{{ tag }}" class="btn btn-primary">{{ tag }}</button>
+                {% endfor %}                             
+            </div>
+        </form>
+    </div> 
+    
+    <script>
+        document.addEventListener("keydown", function(event) {
+            switch (event.keyCode) {
+                case 37: // Left arrow key
+                    window.location.href = "{{ url_for('previous_image') }}";
+                    break;
+                case 39: // Right arrow key
+                    window.location.href = "{{ url_for('next_image') }}";
+                    break;
+            }
+        });
+    </script>
+     
+{% endblock %}

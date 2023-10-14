@@ -1,0 +1,7 @@
+/* Set the maximum height and width for the image */
+.img-responsive {
+    max-width: 100%;   /* Maximum width to 100% of its container */
+    max-height: 70vh;  /* 70% of the viewport height */
+    display: block;    /* Display as block element */
+    margin: 0 auto;    /* Center the image horizontally */
+}
