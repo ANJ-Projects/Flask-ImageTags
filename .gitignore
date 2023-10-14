@@ -1,5 +1,55 @@
+# Image Formats
 *.jpg
 *.png
 *.jpeg
 *.avif
-*.pyc
+*.tiff
+*.gif
+*.bmp
+*.ico
+*.webp
+*.raw
+
+# Video Formats
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.flv
+*.wmv
+
+# Audio Formats
+*.mp3
+*.wav
+*.ogg
+*.flac
+*.aac
+
+# Other Media
+*.pdf
+*.psd
+*.ai
+
+# Configuration & Secret Files
+.env
+*.secret
+*.key
+*.pem
+*.cert
+.DS_Store
+
+# Logs and Databases
+*.log
+*.sql
+*.db
+
+# Common Build Artifacts & Dependencies
+/node_modules/
+/dist/
+/build/
+.cache/
+*.egg-info
+
+# IDE & Editor Configurations
+.vscode/
+.idea/
