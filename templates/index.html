@@ -5,14 +5,69 @@
 
 {% block content %}
     <div class="container">
-        <h1>Image Viewer</h1>
+        <h3>Image Viewer</h3>
         <a href="{{ url_for('previous_image') }}" class="btn btn-primary">Previous</a>
         <a href="{{ url_for('next_image') }}" class="btn btn-primary">Next</a>
 
         <!-- Apply the .img-responsive class to your image -->
         <img src="{{ url_for('static', filename='images/' + image) }}" alt="Newest Image" class="img-responsive">
+        
+        <!-- ... [Rename Buttom] ... -->
 
-        <p>{{ image }}</p>
+<!-- Rename button -->
+<p>Rename</p>
+<button id="renameBtn" class="btn btn-secondary">{{ image }}</button>
+
+<!-- Input field for renaming -->
+<input type="text" id="imageName" value="{{ image }}" style="display: none;">
+<button id="saveName" class="btn btn-primary" style="display: none;">Save</button>
+<button id="cancelRename" class="btn btn-danger" style="display: none;">Cancel</button>
+
+<script>
+    document.addEventListener("keydown", function(event) {
+        switch (event.keyCode) {
+            case 37: // Left arrow key
+                window.location.href = "{{ url_for('previous_image') }}";
+                break;
+            case 39: // Right arrow key
+                window.location.href = "{{ url_for('next_image') }}";
+                break;
+        }
+    });
+
+    // Rename functionality
+    document.getElementById("renameBtn").addEventListener("click", function() {
+        this.style.display = "none";
+        document.getElementById("imageName").style.display = "block";
+        document.getElementById("saveName").style.display = "block";
+        document.getElementById("cancelRename").style.display = "block";
+    });
+
+    document.getElementById("cancelRename").addEventListener("click", function() {
+        // Revert to original state
+        document.getElementById("renameBtn").style.display = "block";
+        document.getElementById("imageName").style.display = "none";
+        document.getElementById("saveName").style.display = "none";
+        this.style.display = "none";
+    });
+
+    document.getElementById("saveName").addEventListener("click", function() {
+        let newName = document.getElementById("imageName").value;
+        fetch("/rename_image", {
+            method: "POST",
+            body: new URLSearchParams({
+                "new_name": newName,
+                "old_name": "{{ image }}"
+            }),
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        }).then(response => window.location.reload());
+    });
+</script>
+ 
+   <!-- ... [Rename Buttom End] ... -->
+   <p>Tags</p>
         <form method="post" action="{{ url_for('tag_image') }}">
             <div class="btn-group">
                 {% for tag in tags %}
@@ -35,4 +90,7 @@
         });
     </script>
      
+
+
+
 {% endblock %}

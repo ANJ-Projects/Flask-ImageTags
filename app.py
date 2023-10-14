@@ -70,6 +70,16 @@ def previous_image():
     return redirect(url_for('index'))
 
 
+@app.route('/rename_image', methods=['POST'])
+def rename_image():
+    old_name = request.form.get('old_name')
+    new_name = request.form.get('new_name')
+    
+    old_path = os.path.join(FOLDER_PATH, old_name)
+    new_path = os.path.join(FOLDER_PATH, new_name)
+    
+    os.rename(old_path, new_path)
+    return "Renamed successfully", 200
 
 # Global variable to keep track of the current image being displayed
 current_image_index = 0
