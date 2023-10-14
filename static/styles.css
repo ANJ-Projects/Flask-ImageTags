@@ -5,3 +5,13 @@
     display: block;    /* Display as block element */
     margin: 0 auto;    /* Center the image horizontally */
 }
+
+/* ... [Make rename text box larger] ... */
+
+#imageName {
+    width: 80%;          /* Adjust this value as needed */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;     /* Adjust font-size if you want bigger text */
+}
