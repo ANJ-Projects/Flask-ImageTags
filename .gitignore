@@ -1,6 +1,5 @@
-
 *.jpg
+*.png
+*.jpeg
+*.avif
 *.pyc
-*.png
-*.png
-*.png
