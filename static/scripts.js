@@ -38,20 +38,32 @@ document.addEventListener("DOMContentLoaded", function() {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
-        }).then(response => window.location.reload());
+        }).then(response => {
+            if (response.ok) {
+                renameBtn.textContent = newName;
+                cancelRename.click();
+            } else {
+                console.error("Error renaming image.");
+            }
+        });
+        
     });
 
     // Keydown event listener for navigation and rename functionality
     document.addEventListener("keydown", function(event) {
         switch (event.keyCode) {
             case 37: // Left arrow key
-                window.location.href = prevImageUrl;
+                if (document.activeElement !== imageName) { 
+                    window.location.href = prevImageUrl;
+                }
                 break;
             case 39: // Right arrow key
-                window.location.href = nextImageUrl;
+                if (document.activeElement !== imageName) {
+                    window.location.href = nextImageUrl;
+                }
                 break;
             case 113: // F2 key for Rename
-                if (document.activeElement !== imageName) { // Ensure it doesn't trigger when already renaming
+                if (document.activeElement !== imageName) { 
                     renameBtn.style.display = "none";
                     imageName.style.display = "block";
                     imageName.value = renameBtn.textContent;
@@ -60,11 +72,22 @@ document.addEventListener("DOMContentLoaded", function() {
                     imageName.focus();
                 }
                 break;
-            case 13: // 'Enter' key
-                if (document.activeElement === imageName) { 
-                    saveName.click();
-                }
-                break;
+                case 13: // 'Enter' key
+                event.preventDefault(); // Prevent any default action
+                const debouncedSave = debounce(() => {
+                    if (document.activeElement === imageName) {
+                        saveName.click();
+                    } else {
+                        renameBtn.style.display = "none";
+                        imageName.style.display = "block";
+                        imageName.value = renameBtn.textContent;
+                        saveName.style.display = "block";
+                        cancelRename.style.display = "block";
+                        imageName.focus();
+                    }
+                }, 300);  // 300 milliseconds debounce time
+                debouncedSave();
+                break;            
             case 27: // 'Escape' key
                 if (document.activeElement === imageName) {
                     cancelRename.click();
@@ -74,6 +97,13 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // If you have additional code (like the tag functionality) add it below
-
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+    }
+    
     // ... [rest of your code]
 });
