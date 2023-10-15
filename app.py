@@ -21,7 +21,6 @@ def get_all_images():
     """Retrieve a sorted list of all valid image files in the directory."""
     return sorted([f for f in os.listdir(FOLDER_PATH) if f.endswith(('jpg', 'jpeg', 'png'))])
 
-
 # Route to tag and rename the image
 @app.route('/tag_image', methods=['POST'])
 def tag_image():
