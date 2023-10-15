@@ -46,11 +46,48 @@ def settings_page():
     return render_template('settings.html')
 # 
 
+
+###########################################################
 # New edit tags page
-@app.route('/edittags')
-def edit_tags_page():
-    return render_template('edit_tags_page.html')
-# 
+#@app.route('/edit_tags')
+#def edit_tags():
+#    return render_template('edit_tags.html')
+
+# New code
+from flask import Flask, render_template, request, redirect, url_for
+
+
+def read_tags():
+    file_path = os.path.join(FOLDER_PATH, 'tags.txt')
+    with open(file_path, 'r') as f:
+        return f.read().splitlines()
+
+def write_tags(tags):
+    file_path = os.path.join(FOLDER_PATH, 'tags.txt')
+    with open(file_path, 'w') as f:
+        for tag in tags:
+            f.write(f"{tag}\n")
+
+@app.route('/edit_tags', methods=['GET', 'POST'])
+def edit_tags():
+    if request.method == 'POST':
+        if 'new_tag' in request.form:  # Add new tag
+            new_tag = request.form['new_tag']
+            tags = read_tags()
+            if new_tag not in tags:
+                tags.append(new_tag)
+            write_tags(tags)
+        elif 'delete_tag' in request.form:  # Delete tag
+            tag_to_delete = request.form['delete_tag']
+            tags = read_tags()
+            if tag_to_delete in tags:
+                tags.remove(tag_to_delete)
+            write_tags(tags)
+    tags = read_tags()
+    return render_template('edit_tags.html', tags=tags)
+
+
+###########################################################
 
 
 @app.route('/next_image')

@@ -1,7 +1,11 @@
 Fun
-Interesting
 Screenshot
 Town
 Beach
 Mountain
 Road
+Car
+Interesting
+Bus
+Bike
+Hat

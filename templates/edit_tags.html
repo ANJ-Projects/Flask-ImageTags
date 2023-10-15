@@ -1,0 +1,38 @@
+{% extends "bootstrap/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Button to go back to the main index page -->
+    <div class="d-flex justify-content-end mt-2">
+        <div class="text-right">
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Index</a>
+        </div>
+    </div>
+
+    <h1>Edit Tags</h1>
+
+    <!-- Add New Tag Form -->
+    <form method="post">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" name="new_tag" placeholder="New Tag">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- List of Tags -->
+    <ul class="list-group">
+    {% for tag in tags %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ tag }}
+            <!-- Delete Button -->
+            <form method="post" class="ml-auto">
+                <input type="hidden" name="delete_tag" value="{{ tag }}">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}
