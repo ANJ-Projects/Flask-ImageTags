@@ -40,6 +40,10 @@ def tag_image():
     selected_tag = request.form.get('tag')
     image_path = os.path.join(FOLDER_PATH, get_image_by_index(current_image_index))
     org_name = os.path.basename(image_path)
+
+    # Check if the tag already exists in the image name (case insensitive)
+    if selected_tag.lower() in org_name.lower():
+        return "Tag Exists", 409
     
     # Rename the image with the selected tag
     name_without_ext = os.path.splitext(org_name)[0]
@@ -48,6 +52,7 @@ def tag_image():
     os.rename(image_path, new_path)
     
     return redirect(url_for('index'))
+
 
 @app.route('/next_image')
 def next_image():
