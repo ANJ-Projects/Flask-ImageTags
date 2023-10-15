@@ -5,13 +5,19 @@
 
 {% block content %}
 <div class="container">
-    <!-- Header -->
-    <h3>Image Viewer</h3>
+    <!-- Header and Settings Button -->
+    <div class="row">
+        <div class="col-md-9">
+            <h3>Image Viewer</h3>
+        </div>
+        <div class="col-md-3 text-right">
+            <a href="{{ url_for('settings_page') }}" class="btn btn-secondary">Settings</a>
+        </div>
+    </div>
 
     <!-- Navigation buttons -->
     <a href="{{ url_for('previous_image') }}" class="btn btn-primary" id="prevImage" data-url="{{ url_for('previous_image') }}">Previous</a>
     <a href="{{ url_for('next_image') }}" class="btn btn-primary" id="nextImage" data-url="{{ url_for('next_image') }}">Next</a>
-
 
     <!-- Image display -->
     <img src="{{ url_for('static', filename='images/' + image) }}" alt="Newest Image" class="img-responsive">

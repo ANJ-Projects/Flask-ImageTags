@@ -40,6 +40,18 @@ def tag_image():
     
     return redirect(url_for('index'))
 
+# New settings page
+@app.route('/settings')
+def settings_page():
+    return render_template('settings.html')
+# 
+
+# New edit tags page
+@app.route('/edittags')
+def edit_tags_page():
+    return render_template('edit_tags_page.html')
+# 
+
 
 @app.route('/next_image')
 def next_image():

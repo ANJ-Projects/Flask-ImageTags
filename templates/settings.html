@@ -1,0 +1,25 @@
+<!-- Include the CSS file -->
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+{% extends "bootstrap/base.html" %}
+
+{% block content %}
+<div class="container">
+    <!-- Button to go back to the main index page -->
+    <div class="d-flex justify-content-end mt-2">
+        <div class="text-right">
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Index</a>
+        </div>
+    </div>
+
+
+    <!-- Centered content -->
+    <div class="d-flex flex-column align-items-center justify-content-center" style="height: 70vh;">
+        <!-- Settings Header -->
+        <h1>Settings</h1>
+
+        <!-- Edit Tags Button -->
+        <a href="{{ url_for('edit_tags_page') }}" class="btn btn-primary mt-4">Edit Tags</a>
+    </div>
+</div>
+{% endblock %}
