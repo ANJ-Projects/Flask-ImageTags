@@ -21,18 +21,6 @@ def get_all_images():
     """Retrieve a sorted list of all valid image files in the directory."""
     return sorted([f for f in os.listdir(FOLDER_PATH) if f.endswith(('jpg', 'jpeg', 'png'))])
 
-@app.route('/')
-def index():
-    # Use the current_image_index to get the appropriate image
-    all_images = get_all_images()
-    image_filename = all_images[current_image_index] if 0 <= current_image_index < len(all_images) else None
-    
-    # Check if the image_filename is valid
-    if not image_filename:
-        return "Image not found", 404
-    
-    tags = load_tags()
-    return render_template('index.html', image=image_filename, tags=tags)
 
 # Route to tag and rename the image
 @app.route('/tag_image', methods=['POST'])
@@ -80,11 +68,35 @@ def rename_image():
     old_name = request.form.get('old_name')
     new_name = request.form.get('new_name')
     
+    # Ensure new name has a valid extension
+    if not new_name.endswith(('jpg', 'jpeg', 'png')):
+        return "Invalid Extension", 400
+
     old_path = os.path.join(FOLDER_PATH, old_name)
     new_path = os.path.join(FOLDER_PATH, new_name)
     
     os.rename(old_path, new_path)
-    return "Renamed successfully", 200
+    return redirect(url_for('index', image_name=new_name))
+
+# New
+@app.route('/')
+@app.route('/<image_name>')
+def index(image_name=None):
+    all_images = get_all_images()
+
+    # If an image name is provided, use it. Otherwise, use the index.
+    image_filename = image_name if image_name in all_images else all_images[current_image_index]
+
+    # Check if the image_filename is valid
+    if not image_filename:
+        return "Image not found", 404
+
+    tags = load_tags()
+    return render_template('index.html', image=image_filename, tags=tags)
+
+
+
+
 
 # Global variable to keep track of the current image being displayed
 current_image_index = 0
